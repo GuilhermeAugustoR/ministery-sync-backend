@@ -5,10 +5,11 @@ interface IRequestUser {
   name: string;
   email: string;
   password: string;
+  function: string;
 }
 
 class CreateUserService {
-  async execute({ name, email, password }: IRequestUser) {
+  async execute({ name, email, password, function: func }: IRequestUser) {
     if (!email) {
       throw new Error("Email incorreto");
     }
@@ -29,11 +30,13 @@ class CreateUserService {
         name: name,
         email: email,
         password: passwordHash,
+        function: func,
       },
       select: {
         id: true,
         name: true,
         email: true,
+        function: true,
       },
     });
 

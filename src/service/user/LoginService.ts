@@ -37,7 +37,13 @@ class LoginService {
       }
     );
 
-    return { id: user.id, name: user.name, email: user.email, token };
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      function: user.function,
+      token,
+    };
   }
 }
 

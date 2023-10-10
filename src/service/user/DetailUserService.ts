@@ -10,6 +10,8 @@ class DetailUserService {
         id: true,
         name: true,
         email: true,
+        function: true,
+        groups: true,
       },
     });
 

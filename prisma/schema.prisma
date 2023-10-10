@@ -12,12 +12,76 @@ datasource db {
 
 //criar uma migration: yarn prisma migrate dev
 model User {
-  id         String    @id @default(uuid())
-  name       String
-  email      String
-  password   String
-  created_at DateTime? @default(now())
-  update_at  DateTime? @default(now())
+  id             String           @id @default(uuid())
+  name           String
+  email          String
+  password       String
+  function       String
+  created_at     DateTime?        @default(now())
+  update_at      DateTime?        @default(now())
+
+  groups         Group[]    @relation("GroupMembers")
+  UserPermission UserPermission[]
+  Chat           Chat[]
+  Attendance     Attendance[]
 
   @@map("users")
+}
+
+model Permission {
+  id             String           @id @default(uuid())
+  name           String
+  description    String?
+  created_at     DateTime?        @default(now())
+  UserPermission UserPermission[]
+
+  @@map("permissions")
+}
+
+model UserPermission {
+  id String @id @default(uuid())
+
+  user       User       @relation(fields: [user_id], references: [id])
+  permission Permission @relation(fields: [permission_id], references: [id])
+
+  user_id       String
+  permission_id String
+
+  @@map("usersPermissions")
+}
+
+model Group {
+  id            String       @id @default(uuid())
+  name          String
+  cultDate      DateTime
+  minister      String
+  chat          Chat[]
+  members       User[]       @relation("GroupMembers")
+  cultAttendees Attendance[]
+
+  @@map("groups")
+}
+
+model Chat {
+  id      Int    @id @default(autoincrement())
+  message String
+  user    User   @relation(fields: [user_id], references: [id])
+  group   Group  @relation(fields: [group_id], references: [id])
+
+  group_id String
+  user_id  String
+
+  @@map("chats")
+}
+
+model Attendance {
+  id         Int     @id @default(autoincrement())
+  willAttend Boolean
+  user       User    @relation(fields: [user_id], references: [id])
+  group      Group   @relation(fields: [group_id], references: [id])
+
+  group_id String
+  user_id  String
+
+  @@map("attendances")
 }
