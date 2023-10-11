@@ -53,7 +53,7 @@ model UserPermission {
 model Group {
   id            String       @id @default(uuid())
   name          String
-  cultDate      DateTime
+  cultDate      String
   minister      String
   chat          Chat[]
   members       User[]       @relation("GroupMembers")

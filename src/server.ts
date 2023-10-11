@@ -1,17 +1,19 @@
 import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
-
+import { Server } from "socket.io";
 import cors from "cors";
 import path from "path";
-import { router } from "./routes";
+import { configureSocketRoutes, router } from "./routes";
+import { createServer } from "http";
 
 const app = express();
+const httpServer = createServer(app);
 
 app.use(cors());
 app.use(express.json());
 
 app.use(router);
-
+configureSocketRoutes(httpServer);
 app.use("/files", express.static(path.resolve(__dirname, "..", "tmp")));
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
