@@ -12,6 +12,7 @@ class DetailUserService {
         email: true,
         function: true,
         groups: true,
+        UserPermission: true,
       },
     });
 

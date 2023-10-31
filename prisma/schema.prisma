@@ -12,15 +12,15 @@ datasource db {
 
 //criar uma migration: yarn prisma migrate dev
 model User {
-  id             String           @id @default(uuid())
-  name           String
-  email          String
-  password       String
-  function       String
-  created_at     DateTime?        @default(now())
-  update_at      DateTime?        @default(now())
+  id         String    @id @default(uuid())
+  name       String
+  email      String
+  password   String
+  function   String
+  created_at DateTime? @default(now())
+  update_at  DateTime? @default(now())
 
-  groups         Group[]    @relation("GroupMembers")
+  groups         Group[]          @relation("GroupMembers")
   UserPermission UserPermission[]
   Chat           Chat[]
   Attendance     Attendance[]

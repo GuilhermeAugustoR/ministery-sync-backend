@@ -10,6 +10,7 @@ import { CreatePermissionsController } from "./controller/permissions/CreatePerm
 import { ListPermissionsController } from "./controller/permissions/ListPermissionsController";
 import { AssingPermissionsController } from "./controller/permissions/AssingPermissionsController";
 import { checkPermission } from "./middlewares/isPermited";
+import { ListGroupController } from "./controller/group/ListGroupController";
 
 const router = Router();
 let httpServer = null;
@@ -19,6 +20,7 @@ const addGroupPermissionMiddleware = checkPermission("Leader");
 router.post("/createUser", new CreateUserController().handle);
 router.post("/login", new LoginController().handle);
 router.get("/me", Authenticated, new DetailUserController().handle);
+router.get("/listGroup", Authenticated, new ListGroupController().handle);
 
 router.post(
   "/createGroup",

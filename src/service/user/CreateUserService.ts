@@ -5,13 +5,22 @@ interface IRequestUser {
   name: string;
   email: string;
   password: string;
-  function: string;
+  role: string;
 }
 
 class CreateUserService {
-  async execute({ name, email, password, function: func }: IRequestUser) {
+  async execute({ name, email, password, role}: IRequestUser) {
+    if (!name) {
+      throw new Error("O campo nome não pode estar vazio");
+    }
     if (!email) {
-      throw new Error("Email incorreto");
+      throw new Error("O campo email não pode estar vazio");
+    }
+    if (!role) {
+      throw new Error("O campo função não pode estar vazio");
+    }
+    if (!password) {
+      throw new Error("O campo senha não pode estar vazio");
     }
 
     //Verifica se esse email já está cadastrado
@@ -30,7 +39,7 @@ class CreateUserService {
         name: name,
         email: email,
         password: passwordHash,
-        function: func,
+        function: role,
       },
       select: {
         id: true,
