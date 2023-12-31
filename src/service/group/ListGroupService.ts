@@ -2,16 +2,24 @@ import prismaClient from "../../prisma";
 
 class ListGroupService {
   async execute(userId: string) {
-    const groups = await prismaClient.user.findFirst({
+    const user = await prismaClient.user.findUnique({
       where: {
         id: userId,
       },
       select: {
-        groups: true,
+        groups: {
+          include: {
+            members: true,
+          },
+        },
       },
     });
 
-    return groups;
+    if (!user) {
+      throw new Error("Usuário não encontrado!");
+    }
+
+    return user.groups;
   }
 }
 
