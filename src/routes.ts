@@ -2,7 +2,6 @@ import { Router } from "express";
 import { CreateUserController } from "./controller/user/CreateUserController";
 import { LoginController } from "./controller/user/LoginController";
 import { DetailUserController } from "./controller/user/DetailUserController";
-import { Server, Socket } from "socket.io";
 import { Authenticated } from "./middlewares/Authenticated";
 import { createServer } from "http";
 import { CreateGroupController } from "./controller/group/CreateGroupController";
@@ -11,10 +10,11 @@ import { ListPermissionsController } from "./controller/permissions/ListPermissi
 import { AssingPermissionsController } from "./controller/permissions/AssingPermissionsController";
 import { checkPermission } from "./middlewares/isPermited";
 import { ListGroupController } from "./controller/group/ListGroupController";
+import { CreateChatController } from "./controller/chat/CreateChatController";
+import { ListChatController } from "./controller/chat/ListChatController";
 
 const router = Router();
 let httpServer = null;
-const io = new Server(httpServer, {});
 const addGroupPermissionMiddleware = checkPermission("Leader");
 
 router.post("/createUser", new CreateUserController().handle);
@@ -43,7 +43,9 @@ router.post(
   Authenticated,
   new AssingPermissionsController().handle
 );
-// router.post("/chat", Authenticated, new DetailUserController().handle);
+
+router.post("/chats", Authenticated, new CreateChatController().handle);
+router.get("/chats/:groupId", Authenticated, new ListChatController().handle);
 
 const configureSocketRoutes = async (server: any) => {
   httpServer = createServer(server);
