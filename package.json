@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --transpile-only src/server.ts",
+    "postinstall": "prisma generate",
     "build": "prisma generate"
   },
   "dependencies": {
